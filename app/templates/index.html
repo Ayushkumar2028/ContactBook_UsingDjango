@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Contact Book</title>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+</head>
+
+<body>
+<div class="container">
+<div class="header">
+    {% if user.is_authenticated %}
+      Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Signup</a>
+    {% endif %}
+</div>
+<h2>Your Contact Book</h2>
+<form method="POST" class="contact-form">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Enter person's name" required>
+      <input type="email" name="email" placeholder="Enter person's Email" required>
+      <input type="text" name="phone" placeholder="Enter person's phone number" required>
+      <textarea name="note" placeholder="Wanna Enter any note?"></textarea>
+      <button type="submit">Submit</button>
+</form>
+
+{% for contact in contacts %}
+  <h3>My Contacts</h3>
+  <p>{{contact.name}} | {{contact.phone}} | {{contact.email}} | {{contact.note}}
+    <a href="{% url 'delete_contact' contact.id %}">[Delete]</a>
+    <a href="{% url 'edit_contact' contact.id %}">[Edit]</a>
+  </p>
+{% endfor %}
+
+<h3>Api Contacts</h3>
+  {% for api in api_contacts %}
+     <p><strong>{{ api.name }}</strong>| {{ api.phone }} | {{ api.email }}
+     </p>
+  {% empty %}
+    <p>No API contacts found.</p>
+  {% endfor %}
+</div>
+</body>
+</html>

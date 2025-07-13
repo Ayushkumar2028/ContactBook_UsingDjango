@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Edit Contact</title>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="{% url 'index' %}">← Back to Contacts</a>
+        </div>
+
+        <h2>Edit Contact</h2>
+
+        <form method="POST" class="contact-form">
+            {% csrf_token %}
+            <input type="text" name="name" value="{{ contact.name }}" placeholder="Name" required>
+            <input type="email" name="email" value="{{ contact.email }}" placeholder="Email" required>
+            <input type="text" name="phone" value="{{ contact.phone }}" placeholder="Phone" required>
+            <textarea name="note" placeholder="Note">{{ contact.note }}</textarea>
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>
